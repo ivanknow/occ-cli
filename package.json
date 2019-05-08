@@ -17,7 +17,11 @@
     "cli",
     "occ-cli"
   ],
-  "author": "",
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/ivanknow/occ-cli.git"
+  },
+  "author": "Ivan Rodrigues",
   "license": "ISC",
   "dependencies": {
     "esm": "^3.2.22"
