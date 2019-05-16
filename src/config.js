@@ -1,29 +1,35 @@
-export function config(constants){
-        var fs = require("fs");
-        
-        constants = {"name":"","url":"","key":""};
-        const readline = require('readline');
-        const rl = readline.createInterface({
-          input: process.stdin,
-          output: process.stdout
-        });
+export function config(constants) {
+    var fs = require("fs");
+    const Store = require('data-store');
+    const store = new Store({ path: 'config.json' });
 
-        rl.question('name:', (answer) => {
-          
-            constants.name = answer;
-        
+    constants = { "name": "", "dcu_folder": "", "url": "", "key": "" };
+    const readline = require('readline');
+    const rl = readline.createInterface({
+        input: process.stdin,
+        output: process.stdout
+    });
+
+    rl.question('name:', (answer) => {
+
+        constants.name = answer;
+        rl.question('dcu folder:', (answer) => {
+
+            constants.dcu_folder = answer;
+
             rl.question('URL:', (answer) => {
-          
+
                 constants.url = answer;
                 rl.question('key:', (answer) => {
-          
+
                     constants.key = answer;
-                    var json = JSON.stringify(constants);
-                    fs.writeFile('assets/settings.json', json, 'utf8', function(){console.log("saved")});
-                  rl.close();
+                    store.set('constants', constants);
+                    rl.close();
+                    
                 });
-              
+
             });
         });
-       
+    });
+
 }

@@ -1,9 +1,17 @@
 export function cli(args){
     
 var fs = require("fs");
+const Store = require('data-store');
+const store = new Store({ path: 'config.json' });
+
 var constants = {};
 try {
-    constants = JSON.parse(fs.readFileSync("assets/settings.json", 'utf8'));
+    if(store.has('constants')){
+        constants = store.get('constants');
+    }else{
+        throw "Too big"; 
+    }
+    
 
 
     if(args.lenght==2){
@@ -27,23 +35,34 @@ try {
                 break;
 
                 case "send-file":
-                    console.log("dcu -g -n "+constants.url+" -k "+constants.key+" -g -c");
+                if(args[3]){
+                    let filepath = args[3]
+                    console.log("dcu -t '"+filepath+"' -n "+constants.url+" -k "+constants.key+" ");
+                }
+                else{
+                    console.log("you need to inform the file papth: occ-cli send-file /path/to/file.js");
+                }
                 break;
 
                 case "send-module":
+                if(args[3]){
                     console.log("dcu -g -n "+constants.url+" -k "+constants.key+" -g -c");
+                }
+                else{
+                    console.log("you need to inform the module path: occ-cli send-module /path/to/module");
+                }
                 break;
 
                 case "new-widget":
-                console.log("dcu -g -n "+constants.url+" -k "+constants.key+" -g -c");
+                console.log("not available yet");
                 break;
 
                 case "new-gateway":
-                console.log("dcu -g -n "+constants.url+" -k "+constants.key+" -g -c");
+                console.log("not available yet");
                 break;
 
                 case "new-sse":
-                console.log("dcu -g -n "+constants.url+" -k "+constants.key+" -g -c");
+                console.log("not available yet");
                 break;
         
                 default:
